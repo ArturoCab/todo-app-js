@@ -1,0 +1,40 @@
+import {View} from "./view.js"
+import {Task} from "./task.js";
+import {TaskStorage} from "./taskStorage.js";
+
+export class App{
+
+    constructor(){
+        View.bindAddTask(this.handleAddTask.bind(this));
+        this.taskStorage=new TaskStorage();
+    }
+
+    handleAddTask(){
+        const {title,description,priority,dueDate} = View.getInputs();
+        if(!title){
+            console.error("need title");
+            return;
+        }
+
+        let t=dueDate.split("-");
+        t=new Date(t[0],t[1],t[2]);
+        const task = new Task(title,description,priority,t);
+        this.taskStorage.add(task);
+        View.displayTasks(this.taskStorage.getTasks())
+        View.clearModal();
+        View.displayModal();
+    }
+
+    handleRemoveTask(){
+
+    }
+
+    handleCompleteTask(){
+
+    }
+
+    static initApp(){
+        new App();
+    }
+
+}

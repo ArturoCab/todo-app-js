@@ -1,3 +1,37 @@
 *{
     font-family: 'Courier New', Courier, monospace;
 }
+
+.card{
+    border-radius: 14px;
+    border: 1px black solid;
+    max-width: 300px;
+    min-height: 300px;
+    max-height: 300px;
+    padding: 3px;
+}
+
+
+.modal{
+    display: none;
+    background-color: blanchedalmond;
+    width: 20ch;
+    padding: 22px;
+    position: fixed;
+    z-index: 1;
+    left: auto;
+    right: auto;
+    
+    
+}
+
+.modal.is-active{
+    display: block;
+}
+
+form>div{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 0px;
+    gap: 22px;
+}
