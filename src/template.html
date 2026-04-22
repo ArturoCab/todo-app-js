@@ -7,10 +7,9 @@
     <title>To-Do app</title>
 </head>
 <body>
-    
-    <button id="newTask">New Task</button>
-    <div class="modal">
-        <form id="newTask-form">
+    <div class="app">
+        <button id="newTask">New Task</button>
+        <form id="newTask-form" class="hidden">
             <div>
                 <input type="text" name="title" placeholder="Title" class="new-task-input">
                 <textarea name="description" placeholder="Description" rows="3" class="new-task-input"></textarea>
@@ -25,21 +24,27 @@
                 <button id="submitButton">Submit Task</button>
             </div>
         </form>
-            
+
+        <div class="table">
+            <div class="header row">
+                <div>ID</div>
+                <div>Title</div>
+                <div>Description</div>
+                <div>Priority</div>
+                <div>Due Date</div>
+                <div>Actions</div>
+            </div>
+
+            <div id="dynamic"></div>
+        </div>
+
     </div>
+    
+            
     
     <div class="idea" style="display: none;">
         ok, se me ocurre que esto esta chido para asiganrlas a un equipo... por lo que se me ocurre un bucket de tareas.. o tal vez un generador de historias de usuario.. 
         la tarea tiene un ID, un titulo, descripcion, asigned, closedBy, openedBy openDate, dueDate, descripcion, prioridad, estado, commentarios.. parece mas que estoy haciendo un sistema de tickets, pero equis.. 
-    </div>
-   <div id="dynamic"></div>
-    <div class="card">
-        <div>$ID</div>
-        <div>$title</div>
-        <div>$description</div>
-        <div>$priority</div>
-        <div>$dueDate</div>
-        
     </div>
 
     <div class="listing" style="display: none;">

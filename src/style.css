@@ -2,6 +2,24 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
+.table{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 1fr 1fr 100px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.header{
+    font-weight: bold;
+    background-color: #eee;
+}
+
 .card{
     border-radius: 14px;
     border: 1px black solid;
