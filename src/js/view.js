@@ -7,7 +7,6 @@ export class View{
     static getInputs(){
         const inputs=document.querySelectorAll('.new-task-input');
 
-        console.log(inputs[2]);
         return {
             title: inputs[0].value, 
             description:inputs[1].value, 
@@ -30,6 +29,26 @@ export class View{
             handler();
             
         })
+    }
+
+    static renderTask(task){
+        const id=task.getId();
+        const dynamic = document.querySelector("#dynamic");
+        const row = document.createElement('div');
+        row.classList.add("row");
+        row.innerHTML=`
+            <div>${id}</div>
+            <div>${task.getTitle()}</div>
+            <div>${task.getDescription()}</div>
+            <div>${task.getPriority()}</div>
+            <div>${task.getDueDate()}</div>
+            <div>
+                <button class="complete" data-id="${id}">✔</button>
+                <button class="edit" data-id="${id}">✏</button>
+                <button class="delete" data-id="${id}">🗑</button>
+            </div>
+            `;
+        dynamic.appendChild(row);
     }
 
     static displayTasks(tasks){

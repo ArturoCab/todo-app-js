@@ -14,6 +14,7 @@ export class Task{
     #description;
     #priority;
     #dueDate;
+    #completed;
     /*$asignedTo;
     $comments;
     $state;
@@ -27,6 +28,7 @@ export class Task{
         this.#description=description;
         this.#priority=priority;
         this.#dueDate=dueDate;
+        this.#completed=false;    
     }
 
     getId(){
@@ -47,6 +49,9 @@ export class Task{
 
     getDueDate(){
         return this.#dueDate;
+    }
+    toggleCompleted(){
+        this.#completed=!this.#completed;
     }
 }
 

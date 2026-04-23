@@ -8,6 +8,10 @@
     gap: 8px;
 }
 
+.completed{
+    background-color: gray;
+}
+
 .row{
     display: grid;
     grid-template-columns: 100px 1fr 1fr 1fr 1fr 100px;

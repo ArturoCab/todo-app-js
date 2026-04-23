@@ -4,9 +4,27 @@ import {TaskStorage} from "./taskStorage.js";
 
 export class App{
 
+    addListeners(){
+        const d = document.querySelector("#dynamic");
+        d.addEventListener("click",e=>{
+            e.preventDefault();
+            const cls=e.target.classList;
+
+            if(cls.contains('complete'))
+                this.handleCompleteTask(e);
+            if(cls.contains('edit'))
+                this.handleEditTask(e);
+            if(cls.contains('delete'))
+                this.handleRemoveTask(e);
+        });
+    }
+
+
     constructor(){
+
         View.bindAddTask(this.handleAddTask.bind(this));
         this.taskStorage=new TaskStorage();
+        this.addListeners();
     }
 
     handleAddTask(){
@@ -40,21 +58,38 @@ export class App{
             t);
         
         this.taskStorage.add(task);
-        View.displayTasks(this.taskStorage.getTasks())
+        View.renderTask(task)
         View.clearModal();
         //View.displayModal();
     }
 
+    handleEditTask(){
+        console.log("handle edit")
+    }
     handleRemoveTask(){
-
+        console.log("handle remove")
     }
 
-    handleCompleteTask(){
+    handleCompleteTask(e){
+        
+        const row=e.target.parentElement.parentElement;
+        
+        if(!row.classList.contains('completed')){
+            row.classList.add('completed');
+            e.target.textContent="✗";
+        }else{
+            row.classList.remove('completed');
+            e.target.textContent="✔";
+        }
+
+        this.taskStorage.completeTask(e.target.attributes["data-id"].value);
 
     }
 
     static initApp(){
         new App();
+
+
     }
 
 }
