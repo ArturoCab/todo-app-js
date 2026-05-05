@@ -13,19 +13,18 @@ export class TaskStorage{
         return this.#storage;
     }
 
-    completeTask(id){
+    toggleComplete(id){
         this.editTask(id,{"completed":true})
     }
 
+
     editTask(id, t){
-        console.log(id)
-        console.table(this.getTasks());
         const task=this.#storage.find((x)=>x.getId()===id);
         if(!task){
             console.error("task",id,"not found");
             return;
         }
-        console.log({task})
+        
         if(t["title"])
             task.setTitle(t["title"]);
         if(t["description"])
@@ -36,6 +35,16 @@ export class TaskStorage{
             task.setDueDate(t["dueDate"]);
         if(t["completed"])
             task.toggleCompleted();
+        
+    }
+
+    removeTask(id){
+        const task=this.#storage.findIndex((x)=>x.getId()===id);
+        if(task<0){
+            console.error("task",id,"not found");
+            return;
+        }
+        this.#storage.splice(task,1);
         
     }
 };

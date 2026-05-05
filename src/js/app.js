@@ -63,33 +63,125 @@ export class App{
         //View.displayModal();
     }
 
-    handleEditTask(){
+    handleEditTask(e){
         console.log("handle edit")
+        const id=e.target.attributes["data-id"].value;
+        //fill modal
+
+        const tasks = this.taskStorage.getTasks();
+        const task = tasks.find(t=> t.getId() ==id);
+
+        if(!task){
+            console.error("task not found");
+            return;
+        }
+
+        View.fillModal(task);
+
+        
+
+        View.displayTasks(tasks);
+        //console.log("edited", id, updates);        
     }
-    handleRemoveTask(){
-        console.log("handle remove")
+
+    handleRemoveTask(e){
+        console.log("handle remove");
+        this.taskStorage.removeTask(e.target.attributes["data-id"].value);
+        View.displayTasks(this.taskStorage.getTasks())
+        
+        
+
     }
 
     handleCompleteTask(e){
         
         const row=e.target.parentElement.parentElement;
-        
-        if(!row.classList.contains('completed')){
-            row.classList.add('completed');
-            e.target.textContent="✗";
-        }else{
-            row.classList.remove('completed');
-            e.target.textContent="✔";
-        }
 
-        this.taskStorage.completeTask(e.target.attributes["data-id"].value);
+        this.taskStorage.toggleComplete(e.target.attributes["data-id"].value);
+
+        View.displayTasks(this.taskStorage.getTasks());
 
     }
 
     static initApp(){
-        new App();
-
-
+        const app = new App();
+        window.app=app;
     }
 
+}
+
+
+window.debug={
+    add(data={}){
+        const defaultData= {
+            title: "test",
+            description: "debug task",
+            prioirty: "P4",
+            dueDate: new Date()
+        };
+
+        const final={...defaultData, ...data};
+
+        const task = new Task(
+            final.title,
+            final.description,
+            final.prioirty,
+            final.dueDate
+        );
+
+        app.taskStorage.add(task);
+        View.displayTasks(app.taskStorage.getTasks());
+
+        console.log("task added", task);
+    },
+    list(){
+        const tasks = app.taskStorage.getTasks();
+        console.table(tasks.map(t=>({
+            id: t.getId(),
+            complted: t.getCompleted(),
+            title: t.getTitle(),
+            prioirty: t.getPriority(),
+            dueDate: t.getDueDate()
+        })));
+    },
+
+    remove(id){
+        app.taskStorage.remove(id);
+        View.displayTasks(app.taskStorage.getTasks());
+        console.log("removed",id);
+    },
+
+    complete(id){
+        app.taskStorage.toggleComplete(id);
+        View.displayTasks(app.taskStorage.getTasks());
+        console.log("toggled",id);
+    },
+
+    edit(id, updates={}){
+        const tasks = app.taskStorage.getTasks();
+        const task = tasks.find(t=> t.getId() ==id);
+
+        if(!tasks){
+            console.error("task not found");
+            return;
+        }
+
+        if (updates.title) task.setTitle(updates.title);
+        if (updates.description) task.setDescription(updates.description);
+        if (updates.priority) task.setPriority(updates.priority);
+        if (updates.dueDate) task.setDueDate(updates.dueDate);
+
+        View.displayTasks(tasks);
+        console.log("edited", id, updates);
+    },
+
+    clear(){
+        app.taskStorage.clear?.();
+        View.displayTasks([]);
+        console.log("all tasks cleared");
+    },
+    last() {
+        const tasks = app.taskStorage.getTasks();
+        return tasks[tasks.length - 1]?.getId();
+    }
 }

@@ -39,6 +39,12 @@ export class Task{
         return this.#title;
     }
 
+    setTitle(value){
+        this.#title=value;
+    }
+    getCompleted(){
+        return this.#completed;
+    }
     getDescription(){
         return this.#description;
     }
@@ -46,12 +52,19 @@ export class Task{
     getPriority(){
         return this.#priority;
     }
+    setPriority(value){
+        this.#priority=value;
+    }
 
     getDueDate(){
         return this.#dueDate;
     }
     toggleCompleted(){
         this.#completed=!this.#completed;
+    }
+
+    isCompleted(){
+        return this.#completed;
     }
 }
 
