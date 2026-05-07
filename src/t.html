@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: monospace;
+            width: 80ch;
+        }
+        .table{
+            display: grid;
+            grid-template-columns: 1fr 8px 1fr;
+        }
+        div:not(.table){
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .title{
+            font-weight: bold;
+        }
+        .title::before{
+            content: "[ ";
+        }
+        .title::after{
+            content: " ]";
+        }
+
+        .bar::before{
+            content: "|";
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="table">
+        <div class="projects title">Projects</div>
+        <div class="bar"></div>
+        <div class="tasks title">Tasks</div>
+    </div>
+</body>
+</html>

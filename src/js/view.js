@@ -52,6 +52,10 @@ export class View{
         })
     }
 
+    static renderTasks(tasks){
+        tasks.forEach(t=>this.renderTask(t));
+    }
+
     static renderTask(task){
         const id=task.getId();
         const dynamic = document.querySelector("#dynamic");

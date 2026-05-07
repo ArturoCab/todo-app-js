@@ -1,13 +1,3 @@
-function* foo(){
-    let i=1;
-    while(i+1<Infinity){
-        yield i;
-        i++;
-    }
-}
-
-const Gen=foo();
-
 export class Task{
     #id;
     #title;
@@ -22,13 +12,23 @@ export class Task{
     $openedBy;
     $closedBy;*/
 
-    constructor(title, description="", priority="P4", dueDate=new Date()){
-        this.#id="TASK"+Gen.next().value;
-        this.#title=title;
+    constructor(titleOrObj, description="", priority="P4", dueDate=new Date()){
+        if(typeof titleOrObj==="object"){
+            const obj = titleOrObj;
+            this.#id=obj.id;
+            this.#title=obj.title;
+            this.#description=obj.description;
+            this.#priority=obj.priority;
+            this.#dueDate=new Date(obj.dueDate);
+            this.#completed=obj.completed??false;
+            return;
+        }
+        this.#id=crypto.randomUUID();
+        this.#title=titleOrObj;
         this.#description=description;
         this.#priority=priority;
         this.#dueDate=dueDate;
-        this.#completed=false;    
+        this.#completed=false;
     }
 
     getId(){
@@ -65,6 +65,17 @@ export class Task{
 
     isCompleted(){
         return this.#completed;
+    }
+
+    toJSON(){
+        return{
+            id:this.#id,
+            title:this.#title,
+            description: this.#description,
+            priority: this.#priority,
+            dueDate: this.#dueDate,
+            completed: this.#completed
+        };
     }
 }
 

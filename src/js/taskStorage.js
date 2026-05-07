@@ -1,12 +1,54 @@
+import { Task } from "./task";
+import {Project} from "./project"
+
 export class TaskStorage{
     #storage;
+    #projects;
+    #currentProject;
+
 
     constructor(){
         this.#storage=[];
+        this.#projects=[];
+        this.#currentProject=null;
+    }
+
+    addProject(project){
+        this.#projects.push(project);
+    }
+
+    removeProject(projectId){
+        const project=this.#projects.findIndex(p=>p.getId()==projectId);
+        if(project<0){
+            console.log(projectId, "wasn't found");
+            return;
+        }
+
+        this.#projects.splice(project,1);
+    }
+
+    /**
+     * @param {*} projectId 
+     * @param {Object} p: changes
+     * @returns null
+     */
+    editProject(projectId,p){
+        const project=this.#projects.findIndex(p=>p.getId()==projectId);
+        if(project<0){
+            console.log(projectId, "wasn't found");
+            return;
+        }
+
+        /**aqui van los cambios */
+
     }
 
     add(task){
-        this.#storage.push(task);
+        if(this.#currentProject===null){
+            this.#currentProject=new Project();
+            this.#projects.push(this.#currentProject);
+        }
+        this.#currentProject.addTask(task);
     }
 
     getTasks(filter="All"){
@@ -46,5 +88,29 @@ export class TaskStorage{
         }
         this.#storage.splice(task,1);
         
+    }
+
+    save(){
+        console.log("saving")
+        console.log(this.#storage, JSON.stringify(this.#storage))
+        localStorage.setItem("tasks",JSON.stringify(this.#storage));
+        console.log("saved")
+    }
+
+    load(){
+        console.log("loading...");
+        const data = localStorage.getItem("tasks");
+
+        if(!data) {
+            console.log("no saved data")
+            return;
+        }
+
+        const parsed = JSON.parse(data);
+        this.#storage = parsed.map(t=>new Task(t));
+        console.log(this.#storage)
+
+        console.log("data loaded");
+
     }
 };

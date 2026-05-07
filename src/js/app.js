@@ -21,10 +21,11 @@ export class App{
 
 
     constructor(){
-
         View.bindAddTask(this.handleAddTask.bind(this));
         this.taskStorage=new TaskStorage();
+        this.taskStorage.load();
         this.addListeners();
+        View.renderTasks(this.taskStorage.getTasks());
     }
 
     handleAddTask(){
@@ -61,6 +62,7 @@ export class App{
         View.renderTask(task)
         View.clearModal();
         //View.displayModal();
+        this.taskStorage.save();
     }
 
     handleEditTask(e){
@@ -81,16 +83,15 @@ export class App{
         
 
         View.displayTasks(tasks);
-        //console.log("edited", id, updates);        
+        //console.log("edited", id, updates); 
+        this.taskStorage.save();       
     }
 
     handleRemoveTask(e){
         console.log("handle remove");
         this.taskStorage.removeTask(e.target.attributes["data-id"].value);
         View.displayTasks(this.taskStorage.getTasks())
-        
-        
-
+        this.taskStorage.save();
     }
 
     handleCompleteTask(e){
@@ -130,6 +131,7 @@ window.debug={
         );
 
         app.taskStorage.add(task);
+        app.taskStorage.save();
         View.displayTasks(app.taskStorage.getTasks());
 
         console.log("task added", task);
@@ -146,9 +148,10 @@ window.debug={
     },
 
     remove(id){
-        app.taskStorage.remove(id);
+        app.taskStorage.removeTask(id);
         View.displayTasks(app.taskStorage.getTasks());
         console.log("removed",id);
+        app.taskStorage.save();
     },
 
     complete(id){
@@ -173,6 +176,7 @@ window.debug={
 
         View.displayTasks(tasks);
         console.log("edited", id, updates);
+        taskStorage.save();
     },
 
     clear(){
